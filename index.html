@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="de"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Hupsclick">
+    <meta name="publisher" content="Hupsclick">
+    <meta name="description" content="HUPSCLICK UHR MIT TAGESFORTSCHRITT WECKFUNKTION HUD DESIGN">
+    <meta name="keywords" content="HUPSCLICK, UHR MIT TAGESFORTSCHRITT, WECKFUNKTION, HUD DESIGN, Deutsch">
+    <meta name="copyright" content="Hupsclick">
+    <meta property="og:title" content="HUPSCLICK UHR MIT TAGESFORTSCHRITT WECKFUNKTION HUD DESIGN">
+    <meta property="og:description" content="HUPSCLICK UHR MIT TAGESFORTSCHRITT WECKFUNKTION HUD DESIGN">
+    <meta property="og:type" content="website">
+    <link rel="shortcut icon" href="assets/icon.ico">
+<title>Uhr mit Weckfunktion</title>
+
+<style>
+@font-face {
+  font-family: 'Digital';
+  src: url('assets/digital.ttf') format('truetype');
+  font-display: swap;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: #000;
+  color: #00ff9f;
+  font-family: "Palatino Linotype", Georgia, serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* ORIGINAL DESIGN (UNVERÄNDERT) */
+.date {
+  font-size: clamp(1rem, 3vw, 2rem);
+  letter-spacing: 2.22em;
+  text-shadow: 0 0 20px #00ff9f;
+  margin-bottom: -15.5rem;
+  margin-left: 80px;
+  z-index: 200;
+}
+
+.time {
+  font-family: 'Digital', monospace;
+  font-size: clamp(4rem, 15vw, 12rem);
+  letter-spacing: 0.12em;
+  text-shadow: 0 0 30px #00ff9f, 0 0 60px #00ff9f;
+  margin-bottom: 1.9rem;
+  margin-left: 20px;
+}
+
+.progress-bar-wrapper {
+  position: relative;
+  width: 90vw;
+  max-width: 850px;
+  height: 30px;
+  border: 2px solid #00ff9f;
+  border-radius: 9999px;
+  background: #111;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.progress-bar {
+  height: 100%;
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+.walker-container { position: absolute; inset: 0; pointer-events: none; }
+.walker-track { position: absolute; top: 50%; transform: translateY(-50%); height: 40px; }
+.walker {
+  width: 40px;
+  height: 40px;
+  filter: drop-shadow(0 0 5px #00ff9f);
+  animation: walk-swing 5.8s infinite ease-in-out;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@keyframes walk-swing {
+  0% { left: 0%; }
+  50% { left: 94%; }
+  100% { left: 0%; }
+}
+
+/* 🔔 NEU: minimaler Control-Bereich */
+
+/* 🔔 Buttons größer machen */
+.alarm-controls button {
+  font-size: 1.6rem;
+  height: 45px;
+  min-width: 100px;
+}
+
+.alarm-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.alarm-controls input,
+.alarm-controls button {
+  background: #000;
+  color: #00ff9f;
+  border: 1px solid #00ff9f;
+  padding: 5px 10px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* 🔔 Statusanzeige */
+.alarm-status {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  opacity: 0.7;
+  text-shadow: 0 0 8px #00ff9f;
+}
+
+/* aktiv hervorheben */
+.alarm-status.active {
+  opacity: 1;
+  font-weight: bold;
+}
+
+footer {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  opacity: 0.5;
+  font-size: 0.65rem;
+  letter-spacing: 10px;
+}
+
+/* 📱 Handy im Querformat (Landscape) */
+@media (max-height: 478px) and (orientation: landscape) {
+
+  body {
+    justify-content: flex-start; /* statt zentriert */
+    padding-top: 10px;
+  }
+
+  .time {
+    font-size: clamp(3rem, 10vw, 6rem);
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .date {
+    margin: 0;
+    font-size: 0.9rem;
+    letter-spacing: 0.5em;
+    position: static;
+  }
+
+  .progress-bar-wrapper {
+    margin-bottom: 1rem;
+    height: 20px;
+  }
+
+  .walker {
+    width: 25px;
+    height: 25px;
+  }
+
+.alarm-controls input[type="time"] {
+    font-size: 1.6rem;
+    height: 34px;
+    min-width: 100px;
+}	
+  .alarm-controls {
+    transform: scale(0.8);
+  }
+
+  footer {
+    font-size: 0.6rem;
+    letter-spacing: 5px;
+    bottom: 2px;
+  }
+}
+
+/* 📱 Handy Hochformat (Portrait) */
+@media (max-width: 420px) and (orientation: portrait) {
+
+  body {
+    justify-content: space-between; /* verteilt Inhalt besser */
+    padding: 10px 0;
+  }
+
+  .date {
+    margin: 0;
+    margin-top: 10px;
+    letter-spacing: 0.8em;
+    text-align: center;
+  }
+
+  .time {
+    margin: 0;
+    font-size: clamp(3.5rem, 14vw, 7rem);
+    text-align: center;
+  }
+
+  .progress-bar-wrapper {
+    margin: 1rem 0;
+  }
+
+  .alarm-controls {
+    transform: scale(0.9);
+  }
+
+  .alarm-controls input[type="time"] {
+    font-size: 1.6rem;
+    height: 39px;
+    min-width: 100px;
+  }
+  
+  .alarm-controls button {
+    height: 50px;
+    min-width: 110px;
+  }
+  
+  footer {
+    position: static; /* wichtig → kein "rausdrücken" */
+    margin-bottom: 15px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="date" id="date-display">00.00.0000</div>
+<div class="time" id="time-display">00:00:00</div>
+
+<div class="progress-bar-wrapper">
+  <div class="progress-bar" id="progress-bar"></div>
+
+  <div class="walker-container">
+    <div class="walker-track" id="walker-track">
+      <img src="assets/effekt2.gif" class="walker">
+    </div>
+  </div>
+</div>
+
+<!-- 🔔 NEU -->
+<div class="alarm-controls">
+  <input type="time" id="alarm-input">
+  <button onclick="setAlarm()">⏰stellen</button>
+  <button onclick="stopAlarm()">⛔Stop</button>
+</div>
+
+<div id="alarm-status" class="alarm-status">
+  Kein Wecker aktiv
+</div>
+
+<footer>©HUPSCLICK</footer>
+
+<script>
+const timeDisplay = document.getElementById("time-display");
+const dateDisplay = document.getElementById("date-display");
+const progressBar = document.getElementById("progress-bar");
+const walkerTrack = document.getElementById("walker-track");
+const barWrapper = document.querySelector(".progress-bar-wrapper");
+
+/* 🔔 WECKER */
+let alarmTime = null;
+let alarmActive = false;
+let alarmTriggered = false;
+
+const alarmSound = new Audio("assets/hahn.mp3");
+alarmSound.loop = true;
+
+/* BUTTON FUNKTIONEN */
+function setAlarm() {
+  const input = document.getElementById("alarm-input").value;
+  if (!input) return;
+
+  alarmTime = input;
+  alarmActive = true;
+  alarmTriggered = false;
+
+updateAlarmStatus();
+}
+
+const alarmStatus = document.getElementById("alarm-status");
+
+function updateAlarmStatus() {
+  if (alarmActive && alarmTime) {
+    alarmStatus.textContent = "⏰ Weckzeit aktiv: " + alarmTime;
+    alarmStatus.classList.add("active");
+  } else {
+    alarmStatus.textContent = "Kein Wecker aktiv";
+    alarmStatus.classList.remove("active");
+  }
+}
+
+function stopAlarm() {
+  alarmSound.pause();
+  alarmSound.currentTime = 0;
+  alarmActive = false;
+  alarmTriggered = false;
+
+  updateAlarmStatus();
+}
+
+/* CLOCK */
+function pad(n) {
+  return n.toString().padStart(2, "0");
+}
+
+function updateClock() {
+  const now = new Date();
+
+  const h = pad(now.getHours());
+  const m = pad(now.getMinutes());
+  const s = pad(now.getSeconds());
+
+  timeDisplay.textContent = `${h}:${m}:${s}`;
+
+  const d = pad(now.getDate());
+  const mo = pad(now.getMonth() + 1);
+  const y = now.getFullYear();
+  dateDisplay.textContent = `${d}.${mo}.${y}`;
+
+  const totalSeconds = 86400 - 1;
+  const secondsPassed =
+    now.getHours() * 3600 +
+    now.getMinutes() * 60 +
+    now.getSeconds();
+
+  const progress = secondsPassed / totalSeconds;
+
+  progressBar.style.transform = `scaleX(${progress})`;
+
+  const barWidth = barWrapper.clientWidth;
+  walkerTrack.style.width = `${barWidth * progress}px`;
+
+  /* 🔔 WECKER CHECK */
+  const currentTime = `${h}:${m}`;
+
+  if (alarmActive && currentTime === alarmTime && !alarmTriggered) {
+    alarmSound.play();
+    alarmTriggered = true;
+  }
+
+  /* Reset um Mitternacht */
+  if (h === "00" && m === "00") {
+    alarmTriggered = false;
+  }
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+window.addEventListener("resize", updateClock);
+</script>
+
+</body>
+</html>
+
+
